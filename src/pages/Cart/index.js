@@ -27,13 +27,13 @@ import * as CartActions from '../../store/modules/cart/actions';
 import colors from '../../styles/colors';
 import { formatPrice } from '../../util/format';
 
-const Cart = ({ cart, total, removeFromCart, updateAmount }) => {
+const Cart = ({ cart, total, removeFromCart, updateAmountRequest }) => {
   function increment(product) {
-    updateAmount(product.id, product.amount + 1);
+    updateAmountRequest(product.id, product.amount + 1);
   }
 
   function decrement(product) {
-    updateAmount(product.id, product.amount - 1);
+    updateAmountRequest(product.id, product.amount - 1);
   }
 
   return (
@@ -91,7 +91,7 @@ const Cart = ({ cart, total, removeFromCart, updateAmount }) => {
 Cart.propTypes = {
   cart: PropTypes.instanceOf(Array).isRequired,
   removeFromCart: PropTypes.func.isRequired,
-  updateAmount: PropTypes.func.isRequired,
+  updateAmountRequest: PropTypes.func.isRequired,
   total: PropTypes.string.isRequired,
 };
 
