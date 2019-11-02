@@ -7,4 +7,5 @@ export default {
   lightText: '#999',
   text: '#333',
   lightFill: '#eee',
+  border: '#ddd',
 };
