@@ -23,6 +23,7 @@ import {
   Button,
   ButtonText,
 } from './styles';
+import Empty from '../../components/Empty';
 import * as CartActions from '../../store/modules/cart/actions';
 import colors from '../../styles/colors';
 import { formatPrice } from '../../util/format';
@@ -75,13 +76,17 @@ const Cart = ({ cart, total, removeFromCart, updateAmountRequest }) => {
               </Actions>
             </TableItem>
           ))}
-          <TotalWrapper>
-            <TotalTitle>Total</TotalTitle>
-            <TotalPrice>{total}</TotalPrice>
-            <Button>
-              <ButtonText>Finalizar pedido</ButtonText>
-            </Button>
-          </TotalWrapper>
+          {cart.length !== 0 ? (
+            <TotalWrapper>
+              <TotalTitle>Total</TotalTitle>
+              <TotalPrice>{total}</TotalPrice>
+              <Button>
+                <ButtonText>Finalizar pedido</ButtonText>
+              </Button>
+            </TotalWrapper>
+          ) : (
+            <Empty />
+          )}
         </Table>
       </ScrollView>
     </PageContainer>
