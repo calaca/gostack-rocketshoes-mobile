@@ -46,7 +46,7 @@ const Cart = ({ cart, total, removeFromCart, updateAmount }) => {
                 <Image source={{ uri: product.image }} />
                 <TextWrapper>
                   <Title>{product.title}</Title>
-                  <Price>{product.formattedPrice}</Price>
+                  <Price>{product.priceFormatted}</Price>
                 </TextWrapper>
                 <Icon
                   name="delete-forever"
