@@ -1,5 +1,8 @@
 import React from 'react';
 import { ScrollView } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import PageContainer from '../../components/PageContainer';
 import {
@@ -20,39 +23,37 @@ import {
   Button,
   ButtonText,
 } from './styles';
+import * as CartActions from '../../store/modules/cart/actions';
 import colors from '../../styles/colors';
+import { formatPrice } from '../../util/format';
 
-const products = [
-  {
-    id: 1,
-    title: 'Tênis de Caminhada Leve Confortável',
-    price: 179.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis1.jpg',
-  },
-  {
-    id: 2,
-    title: 'Tênis VR Caminhada Confortável Detalhes Couro Masculino',
-    price: 139.9,
-    image:
-      'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis2.jpg',
-  },
-];
+const Cart = ({ cart, total, removeFromCart, updateAmount }) => {
+  function increment(product) {
+    updateAmount(product.id, product.amount + 1);
+  }
 
-const Cart = () => {
+  function decrement(product) {
+    updateAmount(product.id, product.amount - 1);
+  }
+
   return (
     <PageContainer>
       <ScrollView showsVerticalScrollIndicator={false} fillViewPort>
         <Table>
-          {products.map(product => (
+          {cart.map(product => (
             <TableItem key={product.id}>
               <Details>
                 <Image source={{ uri: product.image }} />
                 <TextWrapper>
                   <Title>{product.title}</Title>
-                  <Price>{product.price}</Price>
+                  <Price>{product.formattedPrice}</Price>
                 </TextWrapper>
-                <Icon name="delete-forever" size={24} color={colors.primary} />
+                <Icon
+                  name="delete-forever"
+                  size={24}
+                  color={colors.primary}
+                  onPress={() => removeFromCart(product.id)}
+                />
               </Details>
               <Actions>
                 <ActionWrapper>
@@ -60,21 +61,23 @@ const Cart = () => {
                     name="remove-circle-outline"
                     size={20}
                     color={colors.primary}
+                    onPress={() => decrement(product)}
                   />
-                  <Count>3</Count>
+                  <Count value={String(product.amount)} />
                   <Icon
                     name="add-circle-outline"
                     size={20}
                     color={colors.primary}
+                    onPress={() => increment(product)}
                   />
                 </ActionWrapper>
-                <SubTotal>R$ 314,58</SubTotal>
+                <SubTotal>{product.subTotal}</SubTotal>
               </Actions>
             </TableItem>
           ))}
           <TotalWrapper>
             <TotalTitle>Total</TotalTitle>
-            <TotalPrice>R$ 1584,66</TotalPrice>
+            <TotalPrice>{total}</TotalPrice>
             <Button>
               <ButtonText>Finalizar pedido</ButtonText>
             </Button>
@@ -85,4 +88,29 @@ const Cart = () => {
   );
 };
 
-export default Cart;
+Cart.propTypes = {
+  cart: PropTypes.instanceOf(Array).isRequired,
+  removeFromCart: PropTypes.func.isRequired,
+  updateAmount: PropTypes.func.isRequired,
+  total: PropTypes.string.isRequired,
+};
+
+const mapStateToProps = state => ({
+  cart: state.cart.map(product => ({
+    ...product,
+    subTotal: formatPrice(product.price * product.amount),
+  })),
+  total: formatPrice(
+    state.cart.reduce((total, product) => {
+      return total + product.price * product.amount;
+    }, 0)
+  ),
+});
+
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(CartActions, dispatch);
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Cart);
