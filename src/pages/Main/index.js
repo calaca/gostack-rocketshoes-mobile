@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
+import PageContainer from '../../components/PageContainer';
 
 const Main = () => {
   return (
-    <View>
+    <PageContainer>
       <Text>Main</Text>
-    </View>
+    </PageContainer>
   );
 };
 

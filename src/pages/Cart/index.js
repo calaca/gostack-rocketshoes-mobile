@@ -1,11 +1,12 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { Text } from 'react-native';
+import PageContainer from '../../components/PageContainer';
 
 const Cart = () => {
   return (
-    <View>
+    <PageContainer>
       <Text>Cart</Text>
-    </View>
+    </PageContainer>
   );
 };
 
