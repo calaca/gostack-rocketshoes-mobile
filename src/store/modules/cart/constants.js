@@ -1,5 +1,6 @@
 export default {
-  ADD_TO_CART: '@cart/ADD',
+  ADD_TO_CART_REQUEST: '@cart/ADD_REQUEST',
+  ADD_TO_CART_SUCCESS: '@cart/ADD_SUCCESS',
   REMOVE_FROM_CART: '@cart/REMOVE',
   UPDATE_AMOUNT: '@cart/UPDATE_AMOUNT',
 };

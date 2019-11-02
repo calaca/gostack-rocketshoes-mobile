@@ -22,7 +22,7 @@ import { formatPrice } from '../../util/format';
 
 class Main extends Component {
   static propTypes = {
-    addToCart: PropTypes.func.isRequired,
+    addToCartRequest: PropTypes.func.isRequired,
     amount: PropTypes.instanceOf(Object).isRequired,
   };
 
@@ -41,10 +41,10 @@ class Main extends Component {
     this.setState({ products: data });
   }
 
-  handleProductItem = product => {
-    const { addToCart } = this.props;
+  handleProductItem = id => {
+    const { addToCartRequest } = this.props;
 
-    addToCart(product);
+    addToCartRequest(id);
   };
 
   render() {
@@ -63,7 +63,7 @@ class Main extends Component {
               <Image source={{ uri: item.image }} />
               <Title>{item.title}</Title>
               <Price>{item.formattedPrice}</Price>
-              <Button onPress={() => this.handleProductItem(item)}>
+              <Button onPress={() => this.handleProductItem(item.id)}>
                 <IconWrapper>
                   <Icon
                     name="add-shopping-cart"

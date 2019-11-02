@@ -1,8 +1,15 @@
 import constants from './constants';
 
-export function addToCart(product) {
+export function addToCartRequest(id) {
   return {
-    type: constants.ADD_TO_CART,
+    type: constants.ADD_TO_CART_REQUEST,
+    id,
+  };
+}
+
+export function addToCartSuccess(product) {
+  return {
+    type: constants.ADD_TO_CART_SUCCESS,
     product,
   };
 }

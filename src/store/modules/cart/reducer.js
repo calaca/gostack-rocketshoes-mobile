@@ -3,7 +3,7 @@ import constants from './constants';
 
 export default function cart(state = [], action) {
   switch (action.type) {
-    case constants.ADD_TO_CART:
+    case constants.ADD_TO_CART_SUCCESS:
       return produce(state, draft => {
         const productIndex = draft.findIndex(p => p.id === action.product.id);
 
